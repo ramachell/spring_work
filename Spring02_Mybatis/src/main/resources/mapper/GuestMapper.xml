@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="guest">
+	
+	<insert id="insert" parameterType="guestDto">
+		insert into board_guest
+		values (guest_seq.nextval, #{writer}, #{content}, #{pwd}, sysdate)
+	</insert>
+	
+	<select id="getList" resultType="guestDto">
+		select * from board_guest order by num desc
+	</select>
+	
+	<select id="getData" resultType="guestDto" parameterType="int">
+		select * from board_guest where num = #{num}
+	</select>
+	
+	<delete id="delete" parameterType="guestDto">
+		delete from board_guest where num = #{num} and pwd = #{pwd}
+	</delete>
+	
+	<update id="update" parameterType="guestDto">
+		update board_guest set writer=#{writer},content=#{content} where num = #{num} and pwd = #{pwd}
+	</update>
+	
+	
+</mapper>
+
+
