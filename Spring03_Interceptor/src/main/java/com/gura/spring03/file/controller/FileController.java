@@ -1,11 +1,14 @@
 package com.gura.spring03.file.controller;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gura.spring03.file.dto.FileDto;
@@ -21,6 +24,42 @@ import com.gura.spring03.file.dto.FileDto;
 @Controller
 public class FileController {
 
+	@ResponseBody
+	@RequestMapping("/image/upload")
+	public Map<String, Object> upload3(MultipartFile image, HttpServletRequest request) {
+
+		// 1. 원본 파일명
+		String orgFileName = image.getOriginalFilename();
+		// 2. 파일의 크기 필요없음
+		// long fileSize = image.getSize();
+
+		// webapp/upload 폴더 까지의 실제 경로(서버의 파일시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/resources/upload");
+
+		// 저장할 파일의 상세 경로
+		// realPath 는 aaa/bbb/ccc 같이 뒤에 /가 없기때문에 separator(/)를 붙여준다
+		String filePath = realPath + File.separator;
+
+		// 디렉토리를 만들 파일 객체 생성
+		File upload = new File(filePath);
+		if (!upload.exists()) {// 만일 디렉토리가 존재하지 않으면
+			upload.mkdir(); // 만들어 준다.
+		}
+		// 저장할 파일 명을 구성한다.
+		String saveFileName = System.currentTimeMillis() + orgFileName;
+		try {
+			// 3. 임시 폴더에 저장된 업로드된 파일을 원하는곳에 원하는 이름으로 이동시키기(전송하기)
+			image.transferTo(new File(filePath + saveFileName));
+			System.out.println(filePath + saveFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String imagePath = "/resources/upload/" + saveFileName;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("imagePath", imagePath);
+		return map;
+	}
+
 	// FileDto 에는 폼 전송된 title, myFile 정보가 들어 있다
 	@RequestMapping("/file/upload2")
 	public String upload2(FileDto dto, HttpServletRequest request) {
@@ -34,7 +73,9 @@ public class FileController {
 		// webapp/upload 폴더 까지의 실제 경로(서버의 파일시스템 상에서의 경로)
 		String realPath = request.getServletContext().getRealPath("/upload");
 		// 저장할 파일의 상세 경로
+		// realPath 는 aaa/bbb/ccc 같이 뒤에 /가 없기때문에 separator(/)를 붙여준다
 		String filePath = realPath + File.separator;
+
 		// 디렉토리를 만들 파일 객체 생성
 		File upload = new File(filePath);
 		if (!upload.exists()) {// 만일 디렉토리가 존재하지 않으면
@@ -45,7 +86,7 @@ public class FileController {
 		try {
 			// 3. 임시 폴더에 저장된 업로드된 파일을 원하는곳에 원하는 이름으로 이동시키기(전송하기)
 			myFile.transferTo(new File(filePath + saveFileName));
-			System.out.println(filePath + saveFileName);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
