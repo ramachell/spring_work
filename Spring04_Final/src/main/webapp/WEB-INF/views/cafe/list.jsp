@@ -7,7 +7,9 @@
 <meta charset="UTF-8">
 <title>/views/cafe/list.jsp</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+
 </head>
 <body>
 	<div class="container">
@@ -44,13 +46,13 @@
 					&condition=${condition}&keyword=${encodedK}
 				 --%>
 				<c:if test="${startPageNum ne 1 }">
-					<li class="page-item">
+					<li class="page-item animate__animated ">
 						<a class="page-link" href="list?pageNum=${startPageNum-1 }&condition=${condition}&keyword=${encodedK}">Prev</a>
 					</li>
 				</c:if>
 				<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
-					<li class="page-item ${pageNum eq i ? 'active' : '' }">
-						<a class="page-link" href="list?pageNum=${i }&condition=${condition}&keyword=${encodedK}">${i }</a>
+					<li class="page-item animate__animated  ${pageNum eq i ? 'active' : '' }">
+						번호 : <a class="page-link animate__animated " href="list?pageNum=${i }&condition=${condition}&keyword=${encodedK}">${i }</a>
 					</li>
 				</c:forEach>
 				<%--
@@ -58,11 +60,25 @@
 				 --%>
 				<c:if test="${endPageNum lt totalPageCount }">
 					<li class="page-item">
-						<a class="page-link" href="list?pageNum=${endPageNum+1 }&condition=${condition}&keyword=${encodedK}">Next</a>
+						<a class="page-link animate__animated" href="list?pageNum=${endPageNum+1 }&condition=${condition}&keyword=${encodedK}">Next</a>
 					</li>
 				</c:if>				
 			</ul>
 		</nav>
+		<script>
+			document.querySelectorAll(".page-item").forEach(function(i){
+				// pagination의 li들에 mouseover 이벤트리스너
+				i.addEventListener("mouseover",(e)=>{
+					// 애니메이션 클래스를 추가함
+					e.target.classList.add("animate__pulse");
+					console.log(e.target + "추가")					
+				});
+				i.addEventListener("animationend", (e)=>{
+					e.target.classList.remove("animate__pulse");
+					console.log(e.target + "제거")
+				});
+			});
+		</script>
 				<!-- 검색 폼 -->
 		<form action="list" method="get">
 			<label for="condition">검색조건</label>	
