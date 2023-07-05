@@ -34,4 +34,9 @@ public class HomeController {
 	public String play() {
 		return "play";
 	}
+
+	@RequestMapping("/gs25/fetch")
+	public String fetch() {
+		return "gs25/fetch";
+	}
 }

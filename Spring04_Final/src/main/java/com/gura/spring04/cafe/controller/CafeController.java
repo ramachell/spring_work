@@ -1,11 +1,15 @@
 package com.gura.spring04.cafe.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gura.spring04.cafe.dto.CafeCommentDto;
 import com.gura.spring04.cafe.dto.CafeDto;
@@ -16,6 +20,15 @@ public class CafeController {
 
 	@Autowired
 	private CafeService service;
+
+	@RequestMapping("/cafe/comment_delete")
+	@ResponseBody
+	public Map<String, Object> commentDelete(HttpServletRequest request) {
+		service.deleteComment(request);
+		Map<String, Object> map = new HashMap<>();
+		map.put("isSuccess", true);
+		return map;
+	}
 
 	@RequestMapping("/cafe/comment_insert")
 	public String commentInsert(HttpServletRequest request, int ref_group) {
@@ -72,18 +85,21 @@ public class CafeController {
 
 		// 테스트위해 3초 시간두려고함
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		service.moreCommentList(request);
-		return "cafe/ajax_comment_list";
+		return "cafe/ajax_comment_list2";
 	}
 
 	@RequestMapping("cafe/comment_update")
-	public String update(CafeCommentDto dto) {
+	@ResponseBody
+	public Map<String, Object> commentUpdate(CafeCommentDto dto) {
 		service.updateComment(dto);
-		return "cafe/cafe_update";
+		Map<String, Object> map = new HashMap<>();
+		map.put("isSuccess", true);
+		return map;
 	}
 }

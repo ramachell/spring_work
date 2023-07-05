@@ -346,6 +346,7 @@
             updateLinks[i].addEventListener("click", function(){
                //click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value 값을 읽어온다. 
                const num=this.getAttribute("data-num"); //댓글의 글번호
+               // 수정버튼 누르면 display 옵션 바꿔서 보이게함
                document.querySelector("#updateForm"+num).style.display="block";
                
             });

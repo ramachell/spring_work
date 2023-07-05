@@ -52,7 +52,7 @@
 				</c:if>
 				<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
 					<li class="page-item animate__animated  ${pageNum eq i ? 'active' : '' }">
-						번호 : <a class="page-link animate__animated " href="list?pageNum=${i }&condition=${condition}&keyword=${encodedK}">${i }</a>
+						<a class="page-link animate__animated " href="list?pageNum=${i }&condition=${condition}&keyword=${encodedK}">${i }</a>
 					</li>
 				</c:forEach>
 				<%--

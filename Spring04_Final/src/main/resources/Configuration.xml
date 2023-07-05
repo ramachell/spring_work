@@ -14,8 +14,8 @@
 			alias="cafeDto" />
 		<typeAlias type="com.gura.spring04.cafe.dto.CafeCommentDto"
 			alias="cafeCommentDto" />
-
-
+		<typeAlias type="com.gura.spring04.gallery.dto.GalleryDto"
+			alias="galleryDto" />
 	</typeAliases>
 
 	<!-- sql 문을 작성한 Mapper xml 문서가 어디에 있는지 목록을 작성해야 한다. -->
@@ -23,6 +23,7 @@
 		<mapper resource="mapper/UsersMapper.xml" />
 		<mapper resource="mapper/FileMapper.xml" />
 		<mapper resource="mapper/CafeMapper.xml" />
-		<mapper resource="mapper/CafeCommentMapper.xml" />		
+		<mapper resource="mapper/CafeCommentMapper.xml" />
+		<mapper resource="mapper/GalleryMapper.xml" />
 	</mappers>
 </configuration>

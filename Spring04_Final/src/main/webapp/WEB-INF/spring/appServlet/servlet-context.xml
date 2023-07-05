@@ -80,6 +80,7 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/cafe/*"/>
+			<mapping path="/gallery/upload_form"/>
 			<exclude-mapping path="/cafe/list"/>
 			<exclude-mapping path="/cafe/detail"/>
 			<exclude-mapping path="/cafe/ajax_comment_list"/>

@@ -108,6 +108,7 @@ public class UsersServiceImpl implements UsersService {
 
 		// webapp/upload 폴더까지의 실제 경로 얻어내기
 		String realPath = request.getServletContext().getRealPath("/resources/upload");
+		System.out.println(realPath);
 		// upload 폴더가 존재하지 않을경우 만들기 위한 File 객체 생성
 		File upload = new File(realPath);
 		if (!upload.exists()) {// 만일 존재 하지 않으면
