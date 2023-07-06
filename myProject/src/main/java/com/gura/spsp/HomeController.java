@@ -1,4 +1,4 @@
-package com.gura.spring04;
+package com.gura.spsp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,8 @@ public class HomeController {
 
 	}
 
-	@RequestMapping("/play")
-	public String play() {
-		return "play";
+	@RequestMapping("/gs25/fetch")
+	public String fetch() {
+		return "gs25/fetch";
 	}
-
 }
