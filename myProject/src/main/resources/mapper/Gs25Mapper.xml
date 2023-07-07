@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="gs25">
+   <insert id="insert" parameterType="gs25dto">
+      INSERT INTO goods
+      (num,name,price,img,type)
+      VALUES(board_cafe_seq.NEXTVAL, #{name}, #{price},
+         #{img}, #{type})
+   </insert>
+   	<select id="getList" parameterType="gs25dto" resultType="gs25dto">  
+		SELECT *
+		FROM
+		   (SELECT result1.*, ROWNUM AS rnum
+		   FROM
+		      (SELECT num,name,price,img,type
+				FROM goods
+				<choose>
+					<when test="name != null">
+						where name like '%'||#{name}||'%'
+					</when>
+				</choose>            
+				ORDER BY num asc
+				
+				)
+				 
+				result1)
+			WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+  	</select>
+  	<select id="getCount" parameterType="gs25dto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM goods
+	<choose>
+		<when test="name != null">
+			where name like '%'||#{name}||'%'
+		</when>
+	</choose>
+	</select>
+</mapper>

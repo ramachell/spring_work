@@ -30,8 +30,4 @@ public class HomeController {
 
 	}
 
-	@RequestMapping("/gs25/fetch")
-	public String fetch() {
-		return "gs25/fetch";
-	}
 }

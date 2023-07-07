@@ -9,13 +9,11 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-//로그인된 사용자인지 검사할 인터셉터
-public class LoginInterceptor implements HandlerInterceptor {
-	// Controller 메소드 수행직전에 로그인된 사용자 인지 검증을 해서
+public class AdminInterceptor implements HandlerInterceptor {
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// 세션 객체의 참조값을 얻어와서
 		HttpSession session = request.getSession();
 		String id = (String) session.getAttribute("id");
 		// 만일 로그인을 하지 않았다면
@@ -41,20 +39,24 @@ public class LoginInterceptor implements HandlerInterceptor {
 			response.sendRedirect(cPath + "/users/loginform?url=" + encodedUrl);
 			return false;
 		}
-		return true;
+
+		if (id.equals("admin")) {
+			return true;
+		}
+		request.setAttribute("msg", "관리자가 아닙니다");
+		String cPath2 = request.getContextPath();
+		response.sendRedirect(cPath2);
+		return false;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		// TODO Auto-generated method stub
-
 	}
+
 }

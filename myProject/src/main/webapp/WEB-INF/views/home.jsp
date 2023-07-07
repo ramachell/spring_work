@@ -21,16 +21,8 @@
 				</p>
 			</c:otherwise>
 		</c:choose>
-		<h1>인덱스 페이지 입니다.</h1>
-			<ul>
-			
-			</ul>
-		<h3>공지사항</h3>
-		<ul>
-			<c:forEach var="tmp" items="${noticeList }">
-				<li>${tmp }</li>
-			</c:forEach>
-		</ul>
+		
+		<h1><a href="gs25/list"> 1+1 보러가기</a></h1>
 	</div>
 </body>
 </html>
