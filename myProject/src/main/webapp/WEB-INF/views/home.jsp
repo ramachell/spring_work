@@ -16,13 +16,17 @@
 			</c:when>
 			<c:otherwise>
 				<p>
-					<a href="${pageContext.request.contextPath}/users/info">${id }</a> 로그인중...
+					${id } 로그인중...
 					<a href="${pageContext.request.contextPath}/users/logout">로그아웃</a>										
 				</p>
 			</c:otherwise>
 		</c:choose>
 		
-		<h1><a href="gs25/list"> 1+1 보러가기</a></h1>
+		<h2><a href="gs25/list"> 1+1 보러가기</a></h2>
+		<c:if test="${id eq 'admin' }">
+			<h2><a href="gs25/savedb"> 관리자 page</a></h2>
+		</c:if>
+			
 	</div>
 </body>
 </html>
