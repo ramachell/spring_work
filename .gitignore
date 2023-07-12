@@ -2,8 +2,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/java,eclipse,windows,web,maven
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,eclipse,windows,web,maven
 
-upload/*
-images/*
+upload/
+images/
 
 ### Eclipse ###
 .metadata
