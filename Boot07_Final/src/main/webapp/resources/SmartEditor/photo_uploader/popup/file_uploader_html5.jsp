@@ -32,7 +32,7 @@
     } else {
         //이미지이므로 신규 파일로 디렉토리 설정 및 업로드   
         //파일 기본경로
-        String dftFilePath = request.getSession().getServletContext().getRealPath("/upload");
+        String dftFilePath = request.getSession().getServletContext().getRealPath("/resources/upload");
         //파일 기본경로 _ 상세경로
         String filePath = dftFilePath + File.separator;
         File file = new File(filePath);
@@ -62,7 +62,7 @@
         // 정보 출력
         sFileInfo += "&bNewLine=true";    
         sFileInfo += "&sFileName=" + filename;    
-        sFileInfo += "&sFileURL="+contextPath+"/upload/"+realFileNm;
+        sFileInfo += "&sFileURL="+contextPath+"/resources/upload/"+realFileNm;
         out.println(sFileInfo);
     }
 %>

@@ -334,7 +334,9 @@
     	var tempFile,
     		sUploadURL;
     	
-    	sUploadURL= 'file_uploader_html5.jsp'; 	//upload URL
+    	// sUploadURL= 'file_uploader_html5.jsp'; 	//upload URL
+    	// 기존 jsp 요청하던걸 컨트롤러를 통하도록 변경
+    	sUploadURL= '/boot07/editor_upload'; 	//upload URL
     	
     	//파일을 하나씩 보내고, 결과를 받음.
     	for(var j=0, k=0; j < nImageInfoCnt; j++) {

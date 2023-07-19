@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.example.boot07.cafe.dao.CafeCommentDao;
 import com.example.boot07.cafe.dao.CafeDao;
@@ -24,7 +25,7 @@ public class CafeServiceImpl implements CafeService {
 	private CafeCommentDao cafeCommentDao;
 
 	@Override
-	public void getList(HttpServletRequest request) {
+	public void getList(HttpServletRequest request, Model model) {
 		// 한 페이지에 몇개씩 표시할 것인지
 		final int PAGE_ROW_COUNT = 5;
 		// 하단 페이지를 몇개씩 표시할 것인지
@@ -100,15 +101,16 @@ public class CafeServiceImpl implements CafeService {
 		}
 
 		// 응답에 필요한 데이터를 view page 에 전달하기 위해 request scope 에 담는다
-		request.setAttribute("list", list);
-		request.setAttribute("pageNum", pageNum);
-		request.setAttribute("startPageNum", startPageNum);
-		request.setAttribute("endPageNum", endPageNum);
-		request.setAttribute("totalPageCount", totalPageCount);
-		request.setAttribute("keyword", keyword);
-		request.setAttribute("encodedK", encodedK);
-		request.setAttribute("totalRow", totalRow);
-		request.setAttribute("condition", condition);
+
+		model.addAttribute("list", list);
+		model.addAttribute("pageNum", pageNum);
+		model.addAttribute("startPageNum", startPageNum);
+		model.addAttribute("endPageNum", endPageNum);
+		model.addAttribute("totalPageCount", totalPageCount);
+		model.addAttribute("keyword", keyword);
+		model.addAttribute("encodedK", encodedK);
+		model.addAttribute("totalRow", totalRow);
+		model.addAttribute("condition", condition);
 	}
 
 	@Override

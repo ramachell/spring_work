@@ -1,14 +1,23 @@
 package com.example.boot07.users.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,12 +35,12 @@ public class UsersController {
 
 	// 비밀번호 수정 요청 처리
 	@RequestMapping("/users/pwd_update")
-	public ModelAndView pwdUpdate(UsersDto dto, ModelAndView mView, HttpSession session) {
+	public String pwdUpdate(UsersDto dto, Model model, HttpSession session) {
 		// 서비스에 필요한 객체의 참조값을 전달해서 비밀번호 수정 로직을 처리한다.
-		service.updateUserPwd(session, dto, mView);
+		service.updateUserPwd(session, dto, model);
 		// view page 로 forward 이동해서 작업 결과를 응답한다.
-		mView.setViewName("users/pwd_update");
-		return mView;
+
+		return "users/pwd_update";
 	}
 
 	// 비밀번호 수정폼 요청 처리
@@ -43,12 +52,11 @@ public class UsersController {
 
 	// 개인 정보 보기 요청 처리
 	@RequestMapping("/users/info")
-	public ModelAndView info(HttpSession session, ModelAndView mView) {
+	public String info(HttpSession session, Model model) {
 
-		service.getInfo(session, mView);
+		service.getInfo(session, model);
 
-		mView.setViewName("users/info");
-		return mView;
+		return "users/info";
 	}
 
 	@RequestMapping("/users/logout")
@@ -87,12 +95,12 @@ public class UsersController {
 
 	// 회원 가입 요청처리
 	@RequestMapping(method = RequestMethod.POST, value = "/users/signup")
-	public ModelAndView signup(ModelAndView mView, UsersDto dto) {
+	public String signup(Model model, UsersDto dto) {
 		// 서비스를 이용해서 DB 에 저장하고
 		service.addUser(dto);
 		// view page 로 forward 이동해서 응답
-		mView.setViewName("users/signup");
-		return mView;
+
+		return "users/signup";
 	}
 
 	/*
@@ -115,10 +123,9 @@ public class UsersController {
 	}
 
 	@RequestMapping("/users/updateform")
-	public ModelAndView updateform(HttpSession session, ModelAndView mView) {
-		service.getInfo(session, mView);
-		mView.setViewName("users/updateform");
-		return mView;
+	public String updateform(HttpSession session, Model model) {
+		service.getInfo(session, model);
+		return "users/updateform";
 	}
 
 	// 개인정보 수정 반영 요청 처리
@@ -132,9 +139,31 @@ public class UsersController {
 	}
 
 	@RequestMapping("/users/delete")
-	public ModelAndView deleteUser(HttpSession session, ModelAndView mView) {
-		service.deleteUser(session, mView);
-		mView.setViewName("users/delete");
-		return mView;
+	public String deleteUser(HttpSession session, Model model) {
+		service.deleteUser(session, model);
+
+		return "users/delete";
+	}
+
+	// application.properties 파일에 있는 정보 얻어내기
+	@Value("${file.location}")
+	private String fileLocation;
+
+	@GetMapping(value = "/users/image/{imageName}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE,
+			MediaType.IMAGE_PNG_VALUE })
+	@ResponseBody
+	public byte[] getImage(@PathVariable("imageName") String imageName) throws IOException {
+		// imageName엔 응답해줄 이미지의 이름이 들어있다.
+
+		// 읽을 파일 경로
+		// fileLocation = application.properties 에 지정
+		//
+		String absolutePath = fileLocation + File.separator + imageName;
+		// 파일 읽을 InputStream
+		InputStream is = new FileInputStream(absolutePath);
+
+		// fileLocation 필드에는 파일이 저장되어 있는 서버의 파일 시스템상에서의 위치가 들어있다.
+
+		return IOUtils.toByteArray(is);
 	}
 }
